@@ -1,9 +1,6 @@
 <?php 
 require('model/database.php');
-require('model/vehicle_db.php');
-require('model/class_db.php');
 require('model/inventory_db.php');
-require('model/type_db.php');
 require('model/customer_db.php');
 require('model/cart_db.php');
 
@@ -74,7 +71,10 @@ if (!$message_email) {
 };
 
 
-
+$search = filter_input(INPUT_GET, 'search', FILTER_UNSAFE_RAW);
+if (!$search) {
+    filter_input(INPUT_GET, 'search', FILTER_UNSAFE_RAW);
+};
 
 
 
@@ -173,7 +173,11 @@ switch ($action) {
     case "contact_page":
         include('view/contact.php');
         break;
-    
+    case "search_shop":
+        $inventory = get_search_inventory($search);
+        include('view/shop.php');
+        break;
+
     case "loggedin_home_page":
             $loggin_failed = false;
             if(count($customer) == 1){
@@ -252,9 +256,9 @@ switch ($action) {
         $inventory = get_all_inventory();
         $check_failed = false;
 
-        /* doublecheck inventory */
+        /* double check inventory */
         foreach ($items as $item) :
-                /* fix this to call the inventory_quantity ID, not the inventory ID and size later */
+                
             $check = check_inventory($item['item_id'], $item['quantity'], $item['size']);
             if (!$check) {
                 $check_failed = true;
@@ -294,7 +298,7 @@ switch ($action) {
         $newinv = get_newest_items();
         $check_failed = false;
 
-        /* doublecheck inventory */
+        /* double check inventory */
         foreach ($items as $item) :
                 /* fix this to call the inventory_quantity ID, not the inventory ID and size later */
             $check = check_inventory($item['item_id'], $item['quantity'], $item['size']);

@@ -86,3 +86,16 @@ function get_inv_quan_of_item($item_id, $size){
     $statement->closeCursor();
     return $inventory;
 }
+
+function get_search_inventory($search){
+    global $db;
+        $query = 'SELECT * FROM inventory WHERE name LIKE CONCAT("%",:search,"%") OR description LIKE CONCAT("%",:search,"%")';
+
+    $statement = $db->prepare($query);
+    $statement->bindvalue(':search', $search);
+    $statement->execute();
+    $inventory = $statement->fetchAll();
+    $statement->closeCursor();
+    return $inventory;
+
+}

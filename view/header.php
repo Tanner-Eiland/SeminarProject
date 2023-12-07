@@ -14,6 +14,14 @@
     <section id="header">
         <!-- <a href=".?action=home_page"><img src="img/new/image10.jpg" class="logo" alt=""></a> -->
         <h2> <?php $loggedin ?></h2>
+        <form method="." method="post" id="message_form" class="message_form" >
+
+            <input type="hidden" name="action" value="search_shop">
+            <label for="search"><b></b></label>
+
+            <input type="text" placeholder="Search" name="search">
+            <button class="normal">Search</button>
+        </form>
         <div>
             <ul id="navbar">
                 <li><a <?php if (($action == 'home_page')){ ?>class="active" <?php } ?> href=".?action=home_page">Home</a></li>
